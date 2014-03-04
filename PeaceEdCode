@@ -14,13 +14,11 @@ school <- Master[ , "NAME.OF.YOUR.SCHOOL"]
 Assign the columns for question numbers
 ```{r}
 Q2 <- as.numeric(Master[, "Age"])
-Q3 <- Master[, "Sex"]
-Q6 <- Master[ , "Have.you.ever.talked.about.religion.or.spirituality.in.one.of.your.classes."]
 ```
 
 Create a data frame from the master list of research
 ```{r}
-MasterFrame <- data.frame(school, Q2, Q3, Q6)
+MasterFrame <- data.frame(school, Q2)
 ```
 
 collect responses by school                                     
@@ -63,7 +61,8 @@ quality <- TRUE
 
 
 Q2 age. Here we create sch.
-sch is a dataframe subset of our working dataframe (MasterFrame) for that school. It has columns school, Q2, Q3, ... , Q26.
+sch is a dataframe subset of our working dataframe (MasterFrame) for that school. It has columns school and Q2 Age. 
+We want to count the number (num) and percentage (per) of students of each age at each school. 
 ```{r}
 currentRow <- currentRow + 2
 for (n in 1:4) {
@@ -111,79 +110,6 @@ print(quality)
 currentRow <- currentRow + 8
 ```
 
-Q3 Gender
-```{r}
-currentRow <- currentRow + 3
-for (n in 1:4) {
-  if (n == 1) sch <- DHSHHS
-  if (n == 2) sch <- LHS
-  if (n == 3) sch <- DHSHHSLHS
-  if (n == 4) sch <- CHS
-  
-a <- sum(sch$Q3 == "Male")
-b <- sum(sch$Q3 == "Female")
-c <- sum(is.na(sch$Q3) | sch$Q3 == "")
-h <- length(sch$Q3)
-  
-aper <- 100*a/h
-bper <- 100*b/h
-cper <- 100*c/h
-
-  if (n == 1) {out$DHSHHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$DHSHHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 2) {out$LHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$LHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 3) {out$DHSHHSLHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$DHSHHSLHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 4) {out$CHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$CHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-
-  if((aper+bper+cper) > 98.5 & (aper+bper+cper) < 101.5) {
-  quality <- TRUE
-  } else quality <- FALSE
-print(quality)
-  
-}
-currentRow <- currentRow + 2
-```
-
-
-Q6 Have you ever talked about religion or spirituality in one of your classes?
-```{r}
-currentRow <- currentRow + 3
-for (n in 1:4) {
-  if (n == 1) sch <- DHSHHS
-  if (n == 2) sch <- LHS
-  if (n == 3) sch <- DHSHHSLHS
-  if (n == 4) sch <- CHS
-  
-a <- sum(sch$Q6 == "Yes" | sch$Q6 == "yes")
-b <- sum(sch$Q6 == "No" | sch$Q6 == "no")
-c <- sum(unclass(sch$Q6) == 1) #  | sch$Q6 == ""
-h <- length(sch$Q6)
-  
-aper <- 100*a/h
-bper <- 100*b/h
-cper <- 100*c/h
-
-  if (n == 1) {out$DHSHHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$DHSHHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 2) {out$LHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$LHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 3) {out$DHSHHSLHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$DHSHHSLHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-  if (n == 4) {out$CHSnum[currentRow:(currentRow+2)] <- c(a,b,c)
-               out$CHSper[currentRow:(currentRow+2)] <- c(aper, bper, cper)}
-
-  if((aper+bper+cper) > 98.5 & (aper+bper+cper) < 101.5) {
-  quality <- TRUE
-  } else quality <- FALSE
-print(quality)
-}
-currentRow <- currentRow + 2
-```
-
-
 Delete the NA values...something like this: 
 ```{r}
 colCounter <- c()
@@ -199,18 +125,8 @@ Create the output table
 ```{r}
 write.table(format(out, digits = 0, justify = c("centre")), file = "subsetEx.csv", sep = ",", row.names = FALSE)
 
-write.table(format(outRmNA, digits = 0, justify = c("centre")), file = "subsetExRmNAV2.csv", sep=",", row.names = FALSE)
+write.table(format(outRmNA, digits = 0, justify = c("centre")), file = "subsetExRmNAV4.csv", sep=",", row.names = FALSE)
 ```
 
-Quality Control Testing
-So far, we just tried the CHS data. Question 26 shows a miscalculated percentage somehow. This means we should recheck Q26, and also do the quality testing on the other schools too. 
-
---> this resulted in some good QC! Q24 n=1 has a false value for quality so that needs to be checked out. 
---> This was due to "Exclusively" being written as " Exclusively". Fixed! HA!
---> QC performed for each school:
- if (n == 1) sch <- DHSHHS
-  if (n == 2) sch <- LHS
-  if (n == 3) sch <- DHSHHSLHS
-  if (n == 4) sch <- CHS
-
-Client requested excel and pdf formats.
+Let's try plotting this in plot.ly
+https://plot.ly/~AnyaB/4
