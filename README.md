@@ -11,7 +11,7 @@ students who answered a range of peace education questions. I've included just t
 to demonstrate subsetting. The high schools are listed using the mascots: Cards, Hawks, Jays, and Eagles. For reporting, the client requested certain schools be grouped together. 
 
 Check out a plot using plot.ly
-https://plot.ly/~AnyaB/4
+https://plot.ly/~AnyaB/6
 
 
 
