@@ -128,4 +128,4 @@ write.table(format(outRmNA, digits = 0, justify = c("centre")), file = "subsetEx
 ```
 
 Let's try plotting this in plot.ly
-https://plot.ly/~AnyaB/6
+https://plot.ly/~AnyaB/7
